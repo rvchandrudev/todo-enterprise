@@ -1,0 +1,152 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Todo Project",
+    "description": "Todo Project Application API",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:8080",
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "Tasks",
+      "description": "API for task management in the system"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths":{
+     "/tasks":{
+         "get":{
+             "tags":["Tasks"],
+             "summary":"Get all tasks",
+             "responses": {
+              "200": {
+                "description": "OK",
+                "schema": {
+                  "$ref": "#/definitions/tasks"
+                }
+              }
+            }
+         },
+         "post":{
+              "tags":["Tasks"],
+              "summary":"Add a new task",
+              "parameters":[{
+                  "name":"title",
+                  "in":"body",
+                  "required": true,
+                  "description":"Task with title that we want to create",
+                  "schema":{
+                      "$ref": "#/definitions/addTaskParam"
+                  }
+              }],
+
+              "responses": {
+                  "200": {
+                    "description": "OK",
+                    "schema": {
+                      "$ref": "#/definitions/tasks"
+                    }
+                  }
+                }
+         }
+     },
+     "/tasks/{id}":{
+         "parameters":[
+          {
+              "name": "id",
+              "in": "path",
+              "description":"Id of the task need to find",
+              "type":"string"
+          }
+         ],
+         "patch":{
+              "tags":["Tasks"],
+              "summary":"Update a task",
+              "parameters":[
+                  {
+                      "name":"task",
+                      "in":"body",
+                      "required":"true",
+                      "description":"task with new value of properties",
+                      "schema":{
+                          "$ref":"#/definitions/updateTaskParams"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                    "description": "OK",
+                    "schema": {
+                      "$ref": "#/definitions/tasks"
+                    }
+                  }
+                }
+
+         },
+         "delete":{
+              "tags":["Tasks"],
+              "summary":"Delete a task",
+              "responses": {
+                  "200": {
+                    "description": "OK",
+                    "schema": {
+                      "$ref": "#/definitions/tasks"
+                    }
+                  }
+                }
+         }
+     }
+  },
+  "definitions":{
+         "tasks":{
+            "properties":{
+               "title":{
+                  "type":"string"
+               },
+               "isCompleted":{
+                  "type":"boolean"
+               },
+               "_id":{
+                  "type":"string"
+               }
+            }
+         },
+         "addTaskParam":{
+          "required":[
+              "title"
+            ],
+          "properties":{
+              "title":{
+                  "type":"string"
+              }
+          }
+         },
+         "updateTaskParams":{
+              "required":[
+                  "title",
+                  "isCompleted"
+              ],
+              "properties":{
+                  "title":{
+                      "type":"string"
+                  },
+                  "isCompleted":{
+                      "type":"boolean"
+                  }
+              }
+         }
+  }
+}
